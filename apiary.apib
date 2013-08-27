@@ -1,26 +1,30 @@
-HOST: http://www.google.com/
+HOST: http://v2.api.cape.io/
 
---- NorthMPLS ---
-
+--- CAPE API v2 ---
 ---
-Welcome to the our sample API documentation. All comments can be written in (support [Markdown](http://daringfireball.net/projects/markdown/syntax) syntax)
+Welcome to the Create Anywhere Publish Everywhere API documentation. [CAPE.io](http://cape.io)
 ---
 
 --
-Shopping Cart Resources
-The following is a section of resources related to the shopping cart
+Internal - Raw Data Resources
+The following is a section of resources related to getting at core data.
 --
+List the value(s) of a specific key.
 
-List products added into your shopping-cart. (comment block again in Markdown)
-GET /shopping-cart
++ Parameters
+    + app_id (string, required) ... Id of a post.
+        + Example: `share`, `supersimple`, `github_static`
+
+GET /_cape_redis/{app_id}/{entity_type}/{data_type}/{entity_id}.json{?string,value,expire_in_sec,all_values}
 < 200
 < Content-Type: application/json
 { "items": [
 { "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
 ] }
 
+
 Save new products in your shopping cart
-POST /shopping-cart
+POST /_cape_user/
 > Content-Type: application/json
 { "product":"1AB23ORM", "quantity": 2 }
 < 201
@@ -28,7 +32,6 @@ POST /shopping-cart
 { "status": "created", "url": "/shopping-cart/2" }
 
 -- Payment Resources --
-
 This resource allows you to submit payment information to process your *shopping cart* items
 POST /payment
 { "cc": "12345678900", "cvc": "123", "expiry": "0112" }
