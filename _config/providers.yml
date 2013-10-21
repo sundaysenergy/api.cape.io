@@ -95,6 +95,11 @@ facebook:
         gender:
           fkey: gender
           type: string
+    info:
+      uri: '/{{id}}'
+    photos:
+      uri: '/{{id}}/photos'
+      data_field: data
 
 instagram:
   type: json
