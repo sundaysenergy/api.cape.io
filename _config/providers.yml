@@ -1,7 +1,8 @@
 github:
   type: json
   host:
-    api: https://api.github.com
+    api: https://api.github.com # https://api-github-com-onexk0n1m0xx.runscope.net #
+    raw: https://raw.github.com
   auth:
     type: oauth2
     resource: user
@@ -21,6 +22,18 @@ github:
           fkey: id
           type: int
     raw:
+      host: raw
+      type: any
+      description: Get a raw file or dir listing from github.
+      args:
+        owner: string
+        repo: string
+        path: uri
+      uri: '/{{owner}}/{{repo}}/{{branch}}/{{{path}}}'
+
+    # /repos/:owner/:repo/contents/:path
+    raw_api:
+      host: api
       type: any
       description: Get a raw file or dir listing from github.
       args:
@@ -41,6 +54,12 @@ github:
       uri: '/repos/{{owner}}/{{repo}}/git/trees/{{sha}}'
       uri_arg:
         recursive: recursive
+  hook:
+    service:
+      method: POST
+      arg:
+        body:
+          payload: json
 
 google:
   type: json
@@ -98,7 +117,7 @@ facebook:
     info:
       uri: '/{{id}}'
     photos:
-      uri: '/{{id}}/photos'
+      uri: '/{{album}}/photos'
       data_field: data
 
 instagram:
