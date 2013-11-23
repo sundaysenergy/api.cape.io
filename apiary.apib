@@ -4,29 +4,76 @@ FORMAT: 1A
 The CAPE API documentation.
 
 # GITHUB HOOK [/hook/github]
-Add this to your github repo in the WebHook URL section.
-http://v2.api.cape.io/hook/github
+This resource accepts commit information from a github. Add `http://v2.api.cape.io/hook/github` to a repo in the WebHook URL section.
 
-# All Make ID's [/make_ids.json]
-`make_ids()`
+## Send Info [POST]
+Posts commit info to CAPE from github.
 
-# Make Info [/{make_id}/_make.json]
-`make_load()`
++ Response 200 (text/plain)
+    + Body
+
+            OK
+
+# Make IDs [/make_ids.json]
+A simple list of make ids. A make id is the name of the file used in the make.cape.io repo. The function is `make_ids()`
+
+## List [GET]
+
++ Response 200 (application/json)
+    + Body
+
+            ["ccd","therapy","se","rwdf","rg","asha","templates","make","bridetobe"]
+
+
+# Make File Info [/{make_id}/_make.json]
+Sometimes you want to see what info the CAPE app has and if it converted the yaml file the way you intended.
+The function is `make_load()`.
+
+## Make File [GET]
 The make data file in json form.
 
-# Update Entity [/{make_id}/_api/{api_id}/_update/{entity_id}]
++ Response 200 (application/json)
+    + Body
+
+            {"domain":"www.genuinerepresentation.org","uid":1,"api":{"cloudfiles":{"provider":"cloudfiles","arg":{"container":"www.genuinerepresentation.org"}},"content":{"provider":"github","arg":{"owner":"sundaysenergy","repo":"ccd-content","branch":"master"},"load":{"resource":"tree","arg":{"recursive":true,"sha":"master"},"_id":"path"}},"theme":{"provider":"github","arg":{"owner":"sundaysenergy","repo":"ccd-theme","branch":"master"},"load":{"resource":"tree","arg":{"recursive":true,"sha":"master"},"_id":"path"}}},"cape_version":"2.0.2","model":{"data":{"type":"object","filter":{"must":{"_id":"data.yaml"},"api":"content"},"field":{"_self":{"file_id":"data.json","arg":{"path":"{{&_id}}"},"api":"content","type":"yaml","resource":"raw"},"_file":{"file_id":"{{&_id}}","arg":{"path":"{{&_id}}"},"api":"content","type":"any","resource":"raw"}}},"theme":{"type":"files","data_id":"\/_model\/theme\/data.json","filter":{"must":{"_dirname":"css"},"api":"theme"},"field":{"_file":{"file_id":"{{&_id}}","arg":{"path":"{{&_id}}"},"api":"theme","type":"any","resource":"raw"}}},"pages":{"type":"list","filter":{"must":{"_id":{"ext":".md"}},"api":"content"},"field":{"_self":{"resource":"raw","arg":{"path":"{{&_id}}"},"type":"md","api":"content"}}},"files":{"type":"files","data_id":"\/files\/index.json","filter":{"must":{"_dirname":"files"},"api":"content"},"field":{"_file":{"file_id":"{{&_id}}","arg":{"path":"{{&_id}}"},"api":"content","type":"any","resource":"raw"}}},"media":{"type":"files","filter":{"must":{"_dirname":"media"},"api":"theme"},"field":{"_file":{"file_id":"{{&_id}}","arg":{"path":"{{&_id}}"},"api":"theme","type":"any","resource":"raw"}}}},"view":{"pages":{"type":"string","template":{"resource":"raw","arg":{"path":"templates\/default.mustache"},"convert":"mustache","api":"theme"},"field":{"data":true,"pages":true},"pager":{"file_id":"{{&page._no_ext}}.html","field_id":"page","iterate":"pages","per_pg":1}},"old":{"type":"string","template":{"resource":"raw","arg":{"path":"templates\/old.mustache"},"convert":"mustache","api":"theme"},"field":{"data":true,"pages":true},"pager":{"file_id":"old\/{{&page._no_ext}}.html","field_id":"page","iterate":"pages","per_pg":1}},"index":{"type":"string","template":{"resource":"raw","arg":{"path":"templates\/default.mustache"},"convert":"mustache","api":"theme"},"field":{"pages":true,"data":true,"sitemap":"yes"},"file_id":"sitemap.html"}}}
+
+# Update an array of Entities [/{make_id}/_api/{api_id}/_update]
+Sometimes you need to send the latest object to CAPE for processing. This does it.
+
+## Entities Array [POST]
+Entities should be in the `entities` argument of the post.
++ Response 201
+
+# Update an entity by ID [/{make_id}/_api/{api_id}/_update/{entity_id}]
 Pass the entity object in the body as json or just pass the entity_id in the url.
+
+## Without sending any data [GET]
+
++ Response 201
+
+## Sending the base entity object [POST]
+Should be included in the `entity` argument.
++ Response 201
 
 # Make API Load [/{make_id}/_api/{api_id}/index.json]
 `api_load()`
 Get json array of entities (may be object with ID field or simply the ID) for a particular make API definition.
 
-# Load all API Entities and process views [{make_id}/load.json]
+## Load [GET]
+Loads just one API details.
++ Response 200
+
+# Load Everything [/{make_id}/load.json]
+This is typically used initially to load all the necessary data/files.
 `load()`
 
-# POST [/{make_id}/{api_id}]
-Send it an array of entity_ids or entity objects and it will return a list of the data models and a list of entity ids for each model. This saves the updated entities to disk cache.
+## Load [GET]
+This is an extermely resource intensive task.
++ Response 200
 
-# [/{make_id}/{view_id}/process.json
+# Process a view [/{make_id}/_view/{view_id}/process.json]
 Returns a list of views that have been processed.
 
+## Build [GET]
+Takes all the cached/local entity data and sends it through the view for output.
++ Response 200
