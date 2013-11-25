@@ -59,16 +59,18 @@ Should be included in the `entity` argument.
 `api_load()`
 Get json array of entities (may be object with ID field or simply the ID) for a particular make API definition.
 
-## Load [GET]
+## API Load [GET]
 Loads just one API details.
 + Response 200
 
 # Load Everything [/{make_id}/load.json]
-This is typically used initially to load all the necessary data/files.
+This is typically used initially to load all the necessary data/files. Every entity that matches a model has each of its fields downloaded or processed.
+It can take a good chunk of time (10-30 seconds) to do this. It's not adviseable to use this on a site that has more than 10-20 entities.
+In the future we will have a way for a background job to steadily process all entities.
 `load()`
 
 ## Load [GET]
-This is an extermely resource intensive task.
+This is an extermely resource intensive task. See description.
 + Response 200
 
 # Process a view [/{make_id}/_view/{view_id}/process.json]
