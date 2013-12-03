@@ -50,6 +50,16 @@ Processes each entity from the most recent api_load() cache.
 
             {'ok'}
 
+# Add all model fields to entities [/{make_id}/_model/{model_id}/model_fields_add.json]
+Loads model entity index and adds new fields to each of those.
+
+## Add New Fields [GET]
+
++ Response 200 (application/json)
+    + Body
+    
+            {'ok'}
+
 # Update an array of Entities [/{make_id}/_api/{api_id}/_update]
 Sometimes you need to send the latest object to CAPE for processing. This does it.
 
