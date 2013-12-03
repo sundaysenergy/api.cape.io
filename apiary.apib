@@ -38,6 +38,18 @@ The make data file in json form.
 
             {"domain":"www.genuinerepresentation.org","uid":1,"api":{"cloudfiles":{"provider":"cloudfiles","arg":{"container":"www.genuinerepresentation.org"}},"content":{"provider":"github","arg":{"owner":"sundaysenergy","repo":"ccd-content","branch":"master"},"load":{"resource":"tree","arg":{"recursive":true,"sha":"master"},"_id":"path"}},"theme":{"provider":"github","arg":{"owner":"sundaysenergy","repo":"ccd-theme","branch":"master"},"load":{"resource":"tree","arg":{"recursive":true,"sha":"master"},"_id":"path"}}},"cape_version":"2.0.2","model":{"data":{"type":"object","filter":{"must":{"_id":"data.yaml"},"api":"content"},"field":{"_self":{"file_id":"data.json","arg":{"path":"{{&_id}}"},"api":"content","type":"yaml","resource":"raw"},"_file":{"file_id":"{{&_id}}","arg":{"path":"{{&_id}}"},"api":"content","type":"any","resource":"raw"}}},"theme":{"type":"files","data_id":"\/_model\/theme\/data.json","filter":{"must":{"_dirname":"css"},"api":"theme"},"field":{"_file":{"file_id":"{{&_id}}","arg":{"path":"{{&_id}}"},"api":"theme","type":"any","resource":"raw"}}},"pages":{"type":"list","filter":{"must":{"_id":{"ext":".md"}},"api":"content"},"field":{"_self":{"resource":"raw","arg":{"path":"{{&_id}}"},"type":"md","api":"content"}}},"files":{"type":"files","data_id":"\/files\/index.json","filter":{"must":{"_dirname":"files"},"api":"content"},"field":{"_file":{"file_id":"{{&_id}}","arg":{"path":"{{&_id}}"},"api":"content","type":"any","resource":"raw"}}},"media":{"type":"files","filter":{"must":{"_dirname":"media"},"api":"theme"},"field":{"_file":{"file_id":"{{&_id}}","arg":{"path":"{{&_id}}"},"api":"theme","type":"any","resource":"raw"}}}},"view":{"pages":{"type":"string","template":{"resource":"raw","arg":{"path":"templates\/default.mustache"},"convert":"mustache","api":"theme"},"field":{"data":true,"pages":true},"pager":{"file_id":"{{&page._no_ext}}.html","field_id":"page","iterate":"pages","per_pg":1}},"old":{"type":"string","template":{"resource":"raw","arg":{"path":"templates\/old.mustache"},"convert":"mustache","api":"theme"},"field":{"data":true,"pages":true},"pager":{"file_id":"old\/{{&page._no_ext}}.html","field_id":"page","iterate":"pages","per_pg":1}},"index":{"type":"string","template":{"resource":"raw","arg":{"path":"templates\/default.mustache"},"convert":"mustache","api":"theme"},"field":{"pages":true,"data":true,"sitemap":"yes"},"file_id":"sitemap.html"}}}
 
+
+# Process all API load entities [/{make_id}/_api/{api_id}/_update.json]
+Processes each entity from the most recent api_load() cache.  
+`api_load_process(api_id)`
+
+## Process [GET]
+
++ Response 200 (application/json)
+    + Body
+
+            {'ok'}
+
 # Update an array of Entities [/{make_id}/_api/{api_id}/_update]
 Sometimes you need to send the latest object to CAPE for processing. This does it.
 
